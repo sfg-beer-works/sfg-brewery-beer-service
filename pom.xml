@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.github.sfg-beer-works</groupId>
         <artifactId>sfg-brewery-bom</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.6</version>
     </parent>
 
     <artifactId>sfg-brewery-beer-service</artifactId>
@@ -33,24 +33,4 @@
 
     <name>SFG Brewery Beer Service</name>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.atlassian.oai</groupId>
-            <artifactId>swagger-request-validator-core</artifactId>
-            <version>${swagger-request-validator.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.oai</groupId>
-            <artifactId>swagger-request-validator-mockmvc</artifactId>
-            <version>${swagger-request-validator.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.oai</groupId>
-            <artifactId>swagger-request-validator-springmvc</artifactId>
-            <version>${swagger-request-validator.version}</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 </project>
