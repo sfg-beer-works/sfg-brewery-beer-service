@@ -15,8 +15,19 @@
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package guru.sfg.brewery.beer_service.web.model;
+package guru.sfg.brewery.model;
 
-public enum BeerStyleEnum {
-    LAGER, PILSNER, STOUT, GOSE, PORTER, ALE, WHEAT, IPA, PALE_ALE, SAISON
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+
+public class BeerOrderPagedList extends PageImpl<BeerOrderDto> {
+    public BeerOrderPagedList(List<BeerOrderDto> content, Pageable pageable, long total) {
+        super(content, pageable, total);
+    }
+
+    public BeerOrderPagedList(List<BeerOrderDto> content) {
+        super(content);
+    }
 }

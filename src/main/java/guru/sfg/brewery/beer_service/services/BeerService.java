@@ -17,9 +17,9 @@
 
 package guru.sfg.brewery.beer_service.services;
 
-import guru.sfg.brewery.beer_service.web.model.BeerDto;
-import guru.sfg.brewery.beer_service.web.model.BeerPagedList;
-import guru.sfg.brewery.beer_service.web.model.BeerStyleEnum;
+import guru.sfg.brewery.model.BeerDto;
+import guru.sfg.brewery.model.BeerPagedList;
+import guru.sfg.brewery.model.BeerStyleEnum;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.UUID;

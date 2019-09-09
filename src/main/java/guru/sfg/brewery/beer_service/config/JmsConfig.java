@@ -15,7 +15,8 @@ public class JmsConfig {
 
     public static final String BREWING_REQUEST_QUEUE = "brewing-request";
     public static final String NEW_INVENTORY_QUEUE = "new-inventory";
-
+    public static final String VALIDATE_ORDER_QUEUE = "validate-order";
+    public static final String VALIDATE_ORDER_RESULT_QUEUE = "validate-order-result";
 
     @Bean // Serialize message content to json using TextMessage
     public MessageConverter jacksonJmsMessageConverter(ObjectMapper objectMapper) {

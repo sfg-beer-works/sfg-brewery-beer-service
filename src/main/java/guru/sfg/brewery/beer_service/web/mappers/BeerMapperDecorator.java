@@ -2,7 +2,7 @@ package guru.sfg.brewery.beer_service.web.mappers;
 
 import guru.sfg.brewery.beer_service.domain.Beer;
 import guru.sfg.brewery.beer_service.services.inventory.BeerInventoryService;
-import guru.sfg.brewery.beer_service.web.model.BeerDto;
+import guru.sfg.brewery.model.BeerDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 

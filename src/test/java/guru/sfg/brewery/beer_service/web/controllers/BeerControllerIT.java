@@ -1,7 +1,7 @@
 package guru.sfg.brewery.beer_service.web.controllers;
 
-import guru.sfg.brewery.beer_service.web.model.BeerDto;
-import guru.sfg.brewery.beer_service.web.model.BeerPagedList;
+import guru.sfg.brewery.model.BeerDto;
+import guru.sfg.brewery.model.BeerPagedList;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

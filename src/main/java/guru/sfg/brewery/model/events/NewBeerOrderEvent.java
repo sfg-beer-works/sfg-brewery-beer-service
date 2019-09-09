@@ -1,6 +1,6 @@
-package guru.sfg.brewery.beer_service.events;
+package guru.sfg.brewery.model.events;
 
-import guru.sfg.brewery.beer_service.web.model.BeerOrderDto;
+import guru.sfg.brewery.model.BeerOrderDto;
 import org.springframework.context.ApplicationEvent;
 
 public class NewBeerOrderEvent extends ApplicationEvent {
