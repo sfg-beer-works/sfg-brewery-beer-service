@@ -21,6 +21,7 @@ import guru.sfg.brewery.beer_service.services.BeerService;
 import guru.sfg.brewery.model.BeerDto;
 import guru.sfg.brewery.model.BeerPagedList;
 import guru.sfg.brewery.model.BeerStyleEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @RequestMapping("/api/v1/")
 @RestController
 public class BeerController {
@@ -73,6 +75,8 @@ public class BeerController {
     @GetMapping(path = {"beer/{beerId}"}, produces = { "application/json" })
     public ResponseEntity<BeerDto>  getBeerById(@PathVariable("beerId") UUID beerId,
                                                 @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand){
+
+        log.debug("Get Request for BeerId: " + beerId);
 
         if (showInventoryOnHand == null) {
             showInventoryOnHand = false;

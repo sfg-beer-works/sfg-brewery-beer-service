@@ -23,6 +23,7 @@ import guru.sfg.brewery.beer_service.web.mappers.BeerMapper;
 import guru.sfg.brewery.model.BeerDto;
 import guru.sfg.brewery.model.BeerPagedList;
 import guru.sfg.brewery.model.BeerStyleEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +36,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class BeerServiceImpl implements BeerService {
 
@@ -97,6 +99,7 @@ public class BeerServiceImpl implements BeerService {
         Optional<Beer> beerOptional = beerRepository.findById(beerId);
 
         if (beerOptional.isPresent()) {
+            log.debug("Found BeerId: " + beerId);
             if(showInventoryOnHand) {
                 return beerMapper.beerToBeerDtoWithInventory(beerOptional.get());
             } else {
