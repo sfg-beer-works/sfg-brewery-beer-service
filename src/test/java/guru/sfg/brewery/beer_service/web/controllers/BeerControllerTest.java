@@ -127,7 +127,7 @@ class BeerControllerTest {
         void testNoParams() throws Exception {
             mockMvc.perform(get("/api/v1/beer").accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(jsonPath("$.content", hasSize(2)))
                     .andExpect(openApi().isValid(OAC_SPEC));
 
@@ -142,7 +142,7 @@ class BeerControllerTest {
             mockMvc.perform(get("/api/v1/beer").accept(MediaType.APPLICATION_JSON)
                     .param("pageSize", "200"))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(jsonPath("$.content", hasSize(2)))
                     .andExpect(openApi().isValid(OAC_SPEC));
 
@@ -157,7 +157,7 @@ class BeerControllerTest {
             mockMvc.perform(get("/api/v1/beer").accept(MediaType.APPLICATION_JSON)
                     .param("pageSize", "200"))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(jsonPath("$.content", hasSize(2)))
                     .andExpect(openApi().isValid(OAC_SPEC));
 
@@ -172,7 +172,7 @@ class BeerControllerTest {
             mockMvc.perform(get("/api/v1/beer").accept(MediaType.APPLICATION_JSON)
                     .param("beerName", GALAXY_CAT))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(jsonPath("$.content", hasSize(2)))
                     .andExpect(openApi().isValid(OAC_SPEC));
 
@@ -188,7 +188,7 @@ class BeerControllerTest {
             mockMvc.perform(get("/api/v1/beer").accept(MediaType.APPLICATION_JSON)
                     .param("beerStyle", "IPA"))
                     .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                     .andExpect(jsonPath("$.content", hasSize(2)))
                     .andExpect(openApi().isValid(OAC_SPEC));
 
@@ -207,7 +207,7 @@ class BeerControllerTest {
 
         mockMvc.perform(get("/api/v1/beer/" + UUID.randomUUID()).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.beerName", is("Beer1")))
                 .andExpect(jsonPath("$.createdDate").isNotEmpty())
                 .andExpect(openApi().isValid(OAC_SPEC));
