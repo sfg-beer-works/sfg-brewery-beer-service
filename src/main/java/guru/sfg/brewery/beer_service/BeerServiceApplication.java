@@ -19,7 +19,9 @@ package guru.sfg.brewery.beer_service;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
+@EnableFeignClients //needs to be on SBA class
 @SpringBootApplication
 public class BeerServiceApplication {
     public static void main(String[] args) {
