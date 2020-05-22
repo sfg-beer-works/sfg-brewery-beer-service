@@ -1,17 +1,17 @@
-FROM openjdk:11-slim
+FROM openjdk:11-jre-slim as builder
+WORKDIR application
+ADD maven/${project.build.finalName}.jar ${project.build.finalName}.jar
+RUN java -Djarmode=layertools -jar ${project.build.finalName}.jar extract
 
-LABEL PROJECT_NAME=brewery-beer-service \
+FROM openjdk:11-jre-slim
+LABEL PROJECT_NAME=${project.artifactId} \
       PROJECT=${project.id}
-
-ENV SFG_SLEEP=2
-ENV SERVER_PORT=8080
 
 EXPOSE 8080
 
-VOLUME /tmp
-ADD maven/${project.build.finalName}.jar ${project.build.finalName}.jar
-RUN sh -c 'touch /${project.build.finalName}.jar'
-
-CMD echo "The application will start in ${SFG_SLEEP}s..." \
-    && sleep ${SFG_SLEEP}  \
-    && java -Djava.security.egd=file:/dev/./urandom -jar /${project.build.finalName}.jar
+WORKDIR application
+COPY --from=builder application/dependencies/ ./
+COPY --from=builder application/spring-boot-loader/ ./
+COPY --from=builder application/snapshot-dependencies/ ./
+COPY --from=builder application/application/ ./
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "org.springframework.boot.loader.JarLauncher"]

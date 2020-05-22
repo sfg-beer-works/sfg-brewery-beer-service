@@ -17,10 +17,12 @@
 
 package guru.sfg.brewery.beer_service.web.controllers;
 
+import brave.Tracer;
 import guru.sfg.brewery.beer_service.services.BeerService;
 import guru.sfg.brewery.model.BeerDto;
 import guru.sfg.brewery.model.BeerPagedList;
 import guru.sfg.brewery.model.BeerStyleEnum;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpHeaders;
@@ -35,6 +37,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Slf4j
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/")
 @RestController
 public class BeerController {
@@ -43,10 +46,7 @@ public class BeerController {
     private static final Integer DEFAULT_PAGE_SIZE = 25;
 
     private final BeerService beerService;
-
-    public BeerController(BeerService beerService) {
-        this.beerService = beerService;
-    }
+    private final Tracer tracer;
 
     @GetMapping(produces = { "application/json" }, path = "beer")
     public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,

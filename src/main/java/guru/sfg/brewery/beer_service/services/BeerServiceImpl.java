@@ -17,12 +17,14 @@
 
 package guru.sfg.brewery.beer_service.services;
 
+import brave.Tracer;
 import guru.sfg.brewery.beer_service.domain.Beer;
 import guru.sfg.brewery.beer_service.repositories.BeerRepository;
 import guru.sfg.brewery.beer_service.web.mappers.BeerMapper;
 import guru.sfg.brewery.model.BeerDto;
 import guru.sfg.brewery.model.BeerPagedList;
 import guru.sfg.brewery.model.BeerStyleEnum;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -38,15 +40,12 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class BeerServiceImpl implements BeerService {
 
     private final BeerRepository beerRepository;
     private final BeerMapper beerMapper;
-
-    public BeerServiceImpl(BeerRepository beerRepository, BeerMapper beerMapper) {
-        this.beerRepository = beerRepository;
-        this.beerMapper = beerMapper;
-    }
+    private final Tracer tracer;
 
     @Cacheable(cacheNames = "beerListCache", condition = "#showInventoryOnHand == false ")
     @Override
@@ -78,6 +77,22 @@ public class BeerServiceImpl implements BeerService {
                             .of(beerPage.getPageable().getPageNumber(),
                                     beerPage.getPageable().getPageSize()),
                     beerPage.getTotalElements());
+
+//            Span span = tracer.nextSpan().name("get-inventory");
+//
+//            try (Tracer.SpanInScope ws = tracer.withSpanInScope(span)) {
+//                beerPagedList = new BeerPagedList(beerPage
+//                        .getContent()
+//                        .stream()
+//                        .map(beerMapper::beerToBeerDtoWithInventory)
+//                        .collect(Collectors.toList()),
+//                        PageRequest
+//                                .of(beerPage.getPageable().getPageNumber(),
+//                                        beerPage.getPageable().getPageSize()),
+//                        beerPage.getTotalElements());
+//            } finally {
+//                span.finish();
+//            }
         } else {
             beerPagedList = new BeerPagedList(beerPage
                     .getContent()

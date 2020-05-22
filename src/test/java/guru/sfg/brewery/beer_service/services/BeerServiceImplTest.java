@@ -1,5 +1,6 @@
 package guru.sfg.brewery.beer_service.services;
 
+import brave.Tracer;
 import guru.sfg.brewery.beer_service.domain.Beer;
 import guru.sfg.brewery.beer_service.repositories.BeerRepository;
 import guru.sfg.brewery.beer_service.services.inventory.BeerInventoryService;
@@ -43,6 +44,9 @@ class BeerServiceImplTest {
     @Configuration
     static class BeerServiceConfig {
 
+        @MockBean
+        Tracer tracer;
+
         @Bean
         DateMapper dateMapper() {
             return new DateMapper();
@@ -61,8 +65,8 @@ class BeerServiceImplTest {
         }
 
         @Bean("beerService")
-        BeerServiceImpl beerService(BeerRepository beerRepository, BeerMapper mapper) {
-            return new BeerServiceImpl(beerRepository, mapper);
+        BeerServiceImpl beerService(BeerRepository beerRepository, BeerMapper mapper, Tracer tracer) {
+            return new BeerServiceImpl(beerRepository, mapper, tracer);
         }
     }
 
