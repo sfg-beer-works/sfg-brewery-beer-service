@@ -239,8 +239,9 @@ class BeerControllerTest {
             BeerDto beerDto = validBeer;
             beerDto.setId(null);
             beerDto.setBeerName(null);
-            BeerDto savedDto = BeerDto.builder().id(UUID.randomUUID()).beerName("New Beer").build();
             String beerDtoJson = objectMapper.writeValueAsString(beerDto);
+
+            BeerDto savedDto = BeerDto.builder().id(UUID.randomUUID()).build();
 
             given(beerService.saveBeer(any())).willReturn(savedDto);
 

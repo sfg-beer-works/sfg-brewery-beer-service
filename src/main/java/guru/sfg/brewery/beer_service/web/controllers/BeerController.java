@@ -17,7 +17,6 @@
 
 package guru.sfg.brewery.beer_service.web.controllers;
 
-import brave.Tracer;
 import guru.sfg.brewery.beer_service.services.BeerService;
 import guru.sfg.brewery.model.BeerDto;
 import guru.sfg.brewery.model.BeerPagedList;
@@ -46,7 +45,6 @@ public class BeerController {
     private static final Integer DEFAULT_PAGE_SIZE = 25;
 
     private final BeerService beerService;
-    private final Tracer tracer;
 
     @GetMapping(produces = { "application/json" }, path = "beer")
     public ResponseEntity<BeerPagedList> listBeers(@RequestParam(value = "pageNumber", required = false) Integer pageNumber,
