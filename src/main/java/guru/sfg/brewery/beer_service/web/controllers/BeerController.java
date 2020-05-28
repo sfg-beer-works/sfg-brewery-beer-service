@@ -53,6 +53,8 @@ public class BeerController {
                                                    @RequestParam(value = "beerStyle", required = false) BeerStyleEnum beerStyle,
                                                    @RequestParam(value = "showInventoryOnHand", required = false) Boolean showInventoryOnHand){
 
+        log.debug("Listing Beers");
+
         if (showInventoryOnHand == null) {
             showInventoryOnHand = false;
         }

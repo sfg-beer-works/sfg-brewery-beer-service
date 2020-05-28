@@ -51,6 +51,8 @@ public class BeerServiceImpl implements BeerService {
     @Override
     public BeerPagedList listBeers(String beerName, BeerStyleEnum beerStyle, PageRequest pageRequest, Boolean showInventoryOnHand) {
 
+        log.debug("Listing Beers");
+
         BeerPagedList beerPagedList;
         Page<Beer> beerPage;
 
@@ -78,21 +80,6 @@ public class BeerServiceImpl implements BeerService {
                                     beerPage.getPageable().getPageSize()),
                     beerPage.getTotalElements());
 
-//            Span span = tracer.nextSpan().name("get-inventory");
-//
-//            try (Tracer.SpanInScope ws = tracer.withSpanInScope(span)) {
-//                beerPagedList = new BeerPagedList(beerPage
-//                        .getContent()
-//                        .stream()
-//                        .map(beerMapper::beerToBeerDtoWithInventory)
-//                        .collect(Collectors.toList()),
-//                        PageRequest
-//                                .of(beerPage.getPageable().getPageNumber(),
-//                                        beerPage.getPageable().getPageSize()),
-//                        beerPage.getTotalElements());
-//            } finally {
-//                span.finish();
-//            }
         } else {
             beerPagedList = new BeerPagedList(beerPage
                     .getContent()
@@ -110,6 +97,8 @@ public class BeerServiceImpl implements BeerService {
     @Cacheable(cacheNames = "beerCache", key = "#beerId", condition = "#showInventoryOnHand == false ")
     @Override
     public BeerDto findBeerById(UUID beerId, Boolean showInventoryOnHand) {
+
+        log.debug("Finding Beer by id: " + beerId);
 
         Optional<Beer> beerOptional = beerRepository.findById(beerId);
 
