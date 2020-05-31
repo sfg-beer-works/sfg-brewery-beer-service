@@ -24,7 +24,7 @@ public class BeerControllerIT {
     void testGetBeers() {
         BeerPagedList pagedList = restTemplate.getForObject(API_V_1_BEER, BeerPagedList.class);
 
-        assertThat(pagedList.getContent()).hasSize(3);
+        assertThat(pagedList.getContent()).hasSize(9);
 
         pagedList.getContent().forEach(beerDto -> {
             BeerDto fetchedBeerDto = restTemplate.getForObject(API_V_1_BEER + beerDto.getId().toString(), BeerDto.class);

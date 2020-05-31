@@ -26,7 +26,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -40,9 +39,12 @@ public class DefaultBreweryLoader implements CommandLineRunner {
     public static final String BEER_1_UPC = "0631234200036";
     public static final String BEER_2_UPC = "0631234300019";
     public static final String BEER_3_UPC = "0083783375213";
-    public static final UUID BEER_1_UUID = UUID.fromString("0a818933-087d-47f2-ad83-2f986ed087eb");
-    public static final UUID BEER_2_UUID = UUID.fromString("a712d914-61ea-4623-8bd0-32c0f6545bfd");
-    public static final UUID BEER_3_UUID = UUID.fromString("026cc3c8-3a0c-4083-a05b-e908048c1b08");
+    public static final String BEER_4_UPC = "0083783375232";
+    public static final String BEER_5_UPC = "0083782275213";
+    public static final String BEER_6_UPC = "0023763375222";
+    public static final String BEER_7_UPC = "0783783332215";
+    public static final String BEER_8_UPC = "0883783375217";
+    public static final String BEER_9_UPC = "0983783375443";
 
     private final BreweryRepository breweryRepository;
     private final BeerRepository beerRepository;
@@ -69,7 +71,6 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                     .minOnHand(12)
                     .quantityToBrew(200)
                     .quantityOnHand(500)
-                    .id(BEER_1_UUID)
                     .upc(BEER_1_UPC)
                     .build();
 
@@ -80,7 +81,6 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                     .beerStyle(BeerStyleEnum.PALE_ALE)
                     .minOnHand(12)
                     .quantityToBrew(200)
-                    .id(BEER_2_UUID)
                     .upc(BEER_2_UPC)
                     .build();
 
@@ -91,11 +91,58 @@ public class DefaultBreweryLoader implements CommandLineRunner {
                     .beerStyle(BeerStyleEnum.PORTER)
                     .minOnHand(12)
                     .quantityToBrew(200)
-                    .id(BEER_3_UUID)
                     .upc(BEER_3_UPC)
                     .build();
 
             beerRepository.save(pinball);
+
+            beerRepository.save(Beer.builder()
+                    .beerName("Golden Buddha")
+                    .beerStyle(BeerStyleEnum.IPA)
+                    .minOnHand(12)
+                    .quantityToBrew(300)
+                    .upc(BEER_4_UPC)
+                    .build());
+
+            beerRepository.save(Beer.builder()
+                    .beerName("Cage Blond")
+                    .beerStyle(BeerStyleEnum.ALE)
+                    .minOnHand(12)
+                    .quantityToBrew(200)
+                    .upc(BEER_5_UPC)
+                    .build());
+
+            beerRepository.save(Beer.builder()
+                    .beerName("Amarmillo IPA")
+                    .beerStyle(BeerStyleEnum.IPA)
+                    .minOnHand(12)
+                    .quantityToBrew(200)
+                    .upc(BEER_6_UPC)
+                    .build());
+
+            beerRepository.save(Beer.builder()
+                    .beerName("King Krush")
+                    .beerStyle(BeerStyleEnum.IPA)
+                    .minOnHand(12)
+                    .quantityToBrew(200)
+                    .upc(BEER_7_UPC)
+                    .build());
+
+            beerRepository.save(Beer.builder()
+                    .beerName("Static IPA")
+                    .beerStyle(BeerStyleEnum.IPA)
+                    .minOnHand(12)
+                    .quantityToBrew(200)
+                    .upc(BEER_8_UPC)
+                    .build());
+
+            beerRepository.save(Beer.builder()
+                    .beerName("Grand Central")
+                    .beerStyle(BeerStyleEnum.ALE)
+                    .minOnHand(12)
+                    .quantityToBrew(200)
+                    .upc(BEER_9_UPC)
+                    .build());
         }
     }
 
