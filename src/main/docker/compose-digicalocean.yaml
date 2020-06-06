@@ -31,11 +31,11 @@ services:
             - 8083:8083
         environment:
             SPRING_PROFILES_ACTIVE: digitalocean
-            SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://netflix:eureka@206.189.231.42:8761/eureka/"},"region":"default","register-with-eureka":true},"instance":{"preferIpAddress":false, "hostName": "inventory-failover}},"spring":{"cloud":{"config":{"discovery":{"enabled":true,"serviceId":"brewery-config"},"failFast":true,"username":"myUserName","password":"myPassword"}}},"application":{"name":"inventory-failover"}}'
+            SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://netflix:eureka@206.189.231.42:8761/eureka/"},"region":"default","register-with-eureka":true},"instance":{"preferIpAddress":false,"hostName":"inventory-failover"}},"spring":{"cloud":{"config":{"discovery":{"enabled":true,"serviceId":"brewery-config"},"failFast":true,"username":"myUserName","password":"myPassword"}}},"application":{"name":"inventory-failover"}}'
         deploy:
             replicas: 2
     beer-service:
-        image: sfgbeerworks/sfg-brewery-beer-service
+        image: sfgbeerworks/sfg-brewery-beer-service:1.0.4
         ports:
             - 8080:8080
         restart: on-failure
