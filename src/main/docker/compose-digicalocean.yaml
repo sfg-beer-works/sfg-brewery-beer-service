@@ -1,0 +1,77 @@
+version: '3.8'
+services:
+    filebeat:
+        image: sfgbeerworks/filebeat:7.7.0
+        volumes:
+            - /var/lib/docker/containers:/var/lib/docker/containers:ro           # Docker logs
+            - /var/run/docker.sock:/var/run/docker.sock:ro                       # Additional information about containers
+        extra_hosts:
+            - "elasticsearch:165.227.85.141"
+        deploy:
+            mode: global
+            restart_policy:
+                condition: on-failure
+    inventory:
+        image: sfgbeerworks/sfg-brewery-inventory-service:1.0.4
+        ports:
+            - 8082:8082
+        environment:
+            SPRING_PROFILES_ACTIVE: digitalocean
+            SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://netflix:eureka@206.189.231.42:8761/eureka/"},"region":"default","register-with-eureka":true},"instance":{"preferIpAddress":false,"hostName":"inventory-service"}},"spring":{"cloud":{"config":{"discovery":{"enabled":true,"serviceId":"brewery-config"},"failFast":true,"username":"myUserName","password":"myPassword"}}},"application":{"name":"inventory-service"}}'
+        restart: on-failure
+        labels:
+            collect_logs_with_filebeat: "true"
+            decode_log_event_to_json_object: "true"
+
+        deploy:
+            replicas: 2
+    inventory-failover:
+        image: sfgbeerworks/sfg-brewery-inventory-failover
+        ports:
+            - 8083:8083
+        environment:
+            SPRING_PROFILES_ACTIVE: digitalocean
+            SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://netflix:eureka@206.189.231.42:8761/eureka/"},"region":"default","register-with-eureka":true},"instance":{"preferIpAddress":false, "hostName": "inventory-failover}},"spring":{"cloud":{"config":{"discovery":{"enabled":true,"serviceId":"brewery-config"},"failFast":true,"username":"myUserName","password":"myPassword"}}},"application":{"name":"inventory-failover"}}'
+        deploy:
+            replicas: 2
+    beer-service:
+        image: sfgbeerworks/sfg-brewery-beer-service
+        ports:
+            - 8080:8080
+        restart: on-failure
+        environment:
+            SPRING_PROFILES_ACTIVE: digitalocean
+            SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://netflix:eureka@206.189.231.42:8761/eureka/"},"region":"default","register-with-eureka":true},"instance":{"preferIpAddress":false,"hostName":"beer-service"}},"spring":{"cloud":{"config":{"discovery":{"enabled":true,"serviceId":"brewery-config"},"failFast":true,"username":"myUserName","password":"myPassword"}}},"application":{"name":"beer-service"}}'
+        labels:
+            collect_logs_with_filebeat: "true"
+            decode_log_event_to_json_object: "true"
+        deploy:
+            replicas: 2
+    order-service:
+        image: sfgbeerworks/sfg-brewery-order-service
+        ports:
+            - 8081:8081
+        restart: on-failure
+        environment:
+            SPRING_PROFILES_ACTIVE: digitalocean
+            SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://netflix:eureka@206.189.231.42:8761/eureka/"},"region":"default","register-with-eureka":true},"instance":{"preferIpAddress":false,"hostName":"order-service"}},"spring":{"cloud":{"config":{"discovery":{"enabled":true,"serviceId":"brewery-config"},"failFast":true,"username":"myUserName","password":"myPassword"}}},"application":{"name":"order-service"}}'
+            SFG_BREWERY_BEER-SERVICE-HOST: http://beer-service:8080
+        labels:
+            collect_logs_with_filebeat: "true"
+            decode_log_event_to_json_object: "true"
+        deploy:
+            replicas: 2
+    gateway:
+        image: sfgbeerworks/sfg-brewery-gateway:1.0.5
+        ports:
+            - 9090:9090
+        restart: on-failure
+        environment:
+            SPRING_PROFILES_ACTIVE: digitalocean
+            SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://netflix:eureka@206.189.231.42:8761/eureka/"},"region":"default","register-with-eureka":false},"instance":{"preferIpAddress":true}}}'
+            SPRING_ZIPKIN_BASEURL: http://206.189.178.213:9411
+        labels:
+            collect_logs_with_filebeat: "true"
+            decode_log_event_to_json_object: "true"
+        deploy:
+            replicas: 2

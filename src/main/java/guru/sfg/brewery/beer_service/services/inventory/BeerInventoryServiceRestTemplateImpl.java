@@ -19,7 +19,7 @@ import java.util.UUID;
 /**
  * Created by jt on 2019-06-07.
  */
-@Profile("!local-discovery")
+@Profile("!local-discovery & !digitalocean")
 @Slf4j
 @ConfigurationProperties(prefix = "sfg.brewery", ignoreUnknownFields = true)
 @Component
@@ -29,20 +29,12 @@ public class BeerInventoryServiceRestTemplateImpl implements BeerInventoryServic
     private final RestTemplate restTemplate;
 
     private String beerInventoryServiceHost;
-//    private String inventoryUser;
-//    private String inventoryPassword;
+
 
     public void setBeerInventoryServiceHost(String beerInventoryServiceHost) {
         this.beerInventoryServiceHost = beerInventoryServiceHost;
     }
 
-//    public void setInventoryUser(String inventoryUser) {
-//        this.inventoryUser = inventoryUser;
-//    }
-//
-//    public void setInventoryPassword(String inventoryPassword) {
-//        this.inventoryPassword = inventoryPassword;
-//    }
 
     public BeerInventoryServiceRestTemplateImpl(RestTemplateBuilder restTemplateBuilder, @Value("${sfg.brewery.inventory-user}") String inventoryUser,
                                                 @Value("${sfg.brewery.inventory-password}") String inventoryPassword) {
