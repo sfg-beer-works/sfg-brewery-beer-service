@@ -12,7 +12,7 @@ services:
             restart_policy:
                 condition: on-failure
     inventory:
-        image: sfgbeerworks/sfg-brewery-inventory-service:1.0.4
+        image: sfgbeerworks/sfg-brewery-inventory-service:1.0.5
         ports:
             - 8082:8082
         environment:
@@ -35,7 +35,7 @@ services:
         deploy:
             replicas: 2
     beer-service:
-        image: sfgbeerworks/sfg-brewery-beer-service:1.0.4
+        image: sfgbeerworks/sfg-brewery-beer-service:1.0.5
         ports:
             - 8080:8080
         restart: on-failure
