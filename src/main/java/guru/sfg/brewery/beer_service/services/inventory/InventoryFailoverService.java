@@ -1,6 +1,6 @@
 package guru.sfg.brewery.beer_service.services.inventory;
 
-import guru.sfg.brewery.beer_service.services.inventory.model.BeerInventoryDto;
+import guru.sfg.brewery.model.BeerInventoryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
