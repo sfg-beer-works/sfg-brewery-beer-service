@@ -43,6 +43,9 @@ public class BeerInventoryServiceFeign implements BeerInventoryService {
                         .sum();
             }
         } catch (Exception e) {
+            log.error("Exception thrown calling inventory service");
+            log.error(e.getClass().getCanonicalName());
+
             if (e instanceof HttpMessageNotReadableException){
                 HttpMessageNotReadableException ex = (HttpMessageNotReadableException) e;
                 log.error("Feign Client returned status: ", ex.getHttpInputMessage().getHeaders().toString());
