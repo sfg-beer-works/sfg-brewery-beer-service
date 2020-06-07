@@ -1,5 +1,7 @@
 package guru.sfg.brewery.beer_service.services.inventory;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
+import com.netflix.hystrix.exception.HystrixRuntimeException;
 import guru.sfg.brewery.model.BeerInventoryDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +47,17 @@ public class BeerInventoryServiceFeign implements BeerInventoryService {
         } catch (Exception e) {
             log.error("Exception thrown calling inventory service");
             log.error(e.getClass().getCanonicalName());
+
+            if(e instanceof HystrixRuntimeException){
+                HystrixRuntimeException hre = (HystrixRuntimeException) e;
+                log.error("HRE Error: " + hre.getCause().getLocalizedMessage());
+
+                if (hre.getCause() instanceof MismatchedInputException){
+                    MismatchedInputException mie = (MismatchedInputException) hre.getCause();
+                    log.error("Original Message");
+                    log.error(mie.getOriginalMessage());
+                }
+            }
 
             if (e instanceof HttpMessageNotReadableException){
                 HttpMessageNotReadableException ex = (HttpMessageNotReadableException) e;
