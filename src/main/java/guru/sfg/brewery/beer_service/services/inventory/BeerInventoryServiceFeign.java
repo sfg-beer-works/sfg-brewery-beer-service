@@ -2,6 +2,7 @@ package guru.sfg.brewery.beer_service.services.inventory;
 
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.netflix.hystrix.exception.HystrixRuntimeException;
+import feign.codec.DecodeException;
 import guru.sfg.brewery.model.BeerInventoryDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -53,16 +54,19 @@ public class BeerInventoryServiceFeign implements BeerInventoryService {
                 log.error("HRE Error: " + hre.getCause().getLocalizedMessage());
                 log.error("HRE Cause: " + hre.getCause().getClass().getCanonicalName());
 
-                if (hre.getCause() instanceof HttpMessageNotReadableException){
-                    log.error("Not Readable Exception");
-                    HttpMessageNotReadableException httpe = (HttpMessageNotReadableException) hre.getCause();
-                    log.error("Feign Client returned status: ", httpe.getHttpInputMessage().getHeaders().toString());
-                    try {
-                        log.error(IOUtils.toString(httpe.getHttpInputMessage().getBody(), StandardCharsets.UTF_8));
-                    } catch (IOException ioException) {
-                        log.error("Failed to read body");
-                        ioException.printStackTrace();
-                    }
+                if (hre.getCause() instanceof DecodeException){
+                    log.error("Decode Exception");
+                    DecodeException de = (DecodeException) hre.getCause();
+                    log.error("Content: " + de.contentUTF8());
+                    log.error("de cause: " + de.getCause().getClass().getCanonicalName());
+//                    HttpMessageNotReadableException httpe = (HttpMessageNotReadableException) hre.getCause();
+//                    log.error("Feign Client returned status: ", httpe.getHttpInputMessage().getHeaders().toString());
+//                    try {
+//                        log.error(IOUtils.toString(httpe.getHttpInputMessage().getBody(), StandardCharsets.UTF_8));
+//                    } catch (IOException ioException) {
+//                        log.error("Failed to read body");
+//                        ioException.printStackTrace();
+//                    }
                 }
 
                 if (hre.getCause() instanceof MismatchedInputException){
