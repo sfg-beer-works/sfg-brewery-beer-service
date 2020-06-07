@@ -11,7 +11,7 @@ services:
             mode: global
             restart_policy:
                 condition: on-failure
-    inventory:
+    inventory-service:
         image: sfgbeerworks/sfg-brewery-inventory-service:1.0.5
         ports:
             - 8082:8082
@@ -22,7 +22,6 @@ services:
         labels:
             collect_logs_with_filebeat: "true"
             decode_log_event_to_json_object: "true"
-
         deploy:
             replicas: 2
     inventory-failover:
@@ -35,7 +34,7 @@ services:
         deploy:
             replicas: 2
     beer-service:
-        image: sfgbeerworks/sfg-brewery-beer-service:1.0.5
+        image: sfgbeerworks/sfg-brewery-beer-service:1.0.6
         ports:
             - 8080:8080
         restart: on-failure
