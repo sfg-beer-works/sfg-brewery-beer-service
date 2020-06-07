@@ -13,6 +13,8 @@ public class FeignClientConfig {
     @Bean
     public BasicAuthRequestInterceptor basicAuthRequestInterceptor(@Value("${sfg.brewery.inventory-user}") String user,
                 @Value("${sfg.brewery.inventory-password}") String password) {
+
+
         return new BasicAuthRequestInterceptor(user, password);
     }
 }

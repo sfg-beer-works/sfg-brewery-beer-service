@@ -70,8 +70,10 @@ public class BeerInventoryServiceFeign implements BeerInventoryService {
                         if (root instanceof MismatchedInputException){
                             log.error("Is Mistamated ");
                             MismatchedInputException mie = (MismatchedInputException) root;
-                            log.error("Original Message");
-                            log.error(mie.getOriginalMessage());
+                            log.error("Original Message: " + mie.getOriginalMessage());
+                            log.error("Mismatched Exception:", mie.getCause());
+                            log.error("to string: " + mie.toString());
+
                         }
                     }
 //                    HttpMessageNotReadableException httpe = (HttpMessageNotReadableException) hre.getCause();
