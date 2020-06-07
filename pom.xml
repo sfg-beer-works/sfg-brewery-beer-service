@@ -25,7 +25,7 @@
     </parent>
 
     <artifactId>sfg-brewery-beer-service</artifactId>
-    <version>1.0.8-SNAPSHOT</version>
+    <version>1.0.8</version>
 
     <description>SFG Brewery Beer Service</description>
 
@@ -58,6 +58,6 @@
         <connection>scm:git:git@github.com:sfg-beer-works/sfg-brewery-beer-service.git</connection>
         <developerConnection>scm:git:git@github.com:sfg-beer-works/sfg-brewery-beer-service.git</developerConnection>
         <url>https://github.com/sfg-beer-works/sfg-brewery-beer-service</url>
-        <tag>sfg-brewery-beer-service-1.0.0</tag>
+        <tag>sfg-brewery-beer-service-1.0.8</tag>
     </scm>
 </project>
