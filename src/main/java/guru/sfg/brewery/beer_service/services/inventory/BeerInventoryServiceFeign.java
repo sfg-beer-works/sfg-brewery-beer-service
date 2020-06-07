@@ -3,10 +3,14 @@ package guru.sfg.brewery.beer_service.services.inventory;
 import guru.sfg.brewery.model.BeerInventoryDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -23,7 +27,7 @@ public class BeerInventoryServiceFeign implements BeerInventoryService {
 
     @Override
     public Integer getOnhandInventory(UUID beerId) {
-        log.debug("Calling Inventory Service - BeerId: " + beerId);
+        log.debug("Calling Inventory Service w/Feign - BeerId: " + beerId);
 
         int onHand = 0;
 
@@ -38,7 +42,17 @@ public class BeerInventoryServiceFeign implements BeerInventoryService {
                         .mapToInt(BeerInventoryDto::getQuantityOnHand)
                         .sum();
             }
-        } catch (Exception e){
+        } catch (Exception e) {
+            if (e instanceof HttpMessageNotReadableException){
+                HttpMessageNotReadableException ex = (HttpMessageNotReadableException) e;
+                log.error("Feign Client returned status: ", ex.getHttpInputMessage().getHeaders().toString());
+                try {
+                    log.error(IOUtils.toString(ex.getHttpInputMessage().getBody(), StandardCharsets.UTF_8));
+                } catch (IOException ioException) {
+                    log.error("Failed to read body");
+                    ioException.printStackTrace();
+                }
+            }
             log.error(e.getMessage());
             log.error("Error in calling Inventory ", e);
             throw e;
