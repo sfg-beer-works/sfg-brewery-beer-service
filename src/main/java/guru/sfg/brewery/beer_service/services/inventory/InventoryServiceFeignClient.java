@@ -15,7 +15,7 @@ import java.util.UUID;
 /**
  * Created by jt on 3/4/20.
  */
-@Profile("local-discovery")
+@Profile({"local-discovery", "digitalocean"})
 @FeignClient(name = "inventory-service", fallback = InventoryFailoverService.class, configuration = FeignClientConfig.class)
 public interface InventoryServiceFeignClient {
 
