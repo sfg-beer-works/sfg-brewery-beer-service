@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -59,6 +60,20 @@ public class BeerInventoryServiceFeign implements BeerInventoryService {
                     DecodeException de = (DecodeException) hre.getCause();
                     log.error("Content: " + de.contentUTF8());
                     log.error("de cause: " + de.getCause().getClass().getCanonicalName());
+
+                    if (de.getCause() instanceof RestClientException){
+                        RestClientException rce = (RestClientException) de.getCause();
+                        Throwable root = rce.getRootCause();
+                        log.error("Root cuase type " + root.getClass().getCanonicalName());
+                        log.error("Root Stack: ", root);
+
+                        if (root instanceof MismatchedInputException){
+                            log.error("Is Mistamated ");
+                            MismatchedInputException mie = (MismatchedInputException) root;
+                            log.error("Original Message");
+                            log.error(mie.getOriginalMessage());
+                        }
+                    }
 //                    HttpMessageNotReadableException httpe = (HttpMessageNotReadableException) hre.getCause();
 //                    log.error("Feign Client returned status: ", httpe.getHttpInputMessage().getHeaders().toString());
 //                    try {
