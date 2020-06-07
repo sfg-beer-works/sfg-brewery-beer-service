@@ -51,6 +51,19 @@ public class BeerInventoryServiceFeign implements BeerInventoryService {
             if(e instanceof HystrixRuntimeException){
                 HystrixRuntimeException hre = (HystrixRuntimeException) e;
                 log.error("HRE Error: " + hre.getCause().getLocalizedMessage());
+                log.error("HRE Cause: " + hre.getCause().getClass().getCanonicalName());
+
+                if (hre.getCause() instanceof HttpMessageNotReadableException){
+                    log.error("Not Readable Exception");
+                    HttpMessageNotReadableException httpe = (HttpMessageNotReadableException) hre.getCause();
+                    log.error("Feign Client returned status: ", httpe.getHttpInputMessage().getHeaders().toString());
+                    try {
+                        log.error(IOUtils.toString(httpe.getHttpInputMessage().getBody(), StandardCharsets.UTF_8));
+                    } catch (IOException ioException) {
+                        log.error("Failed to read body");
+                        ioException.printStackTrace();
+                    }
+                }
 
                 if (hre.getCause() instanceof MismatchedInputException){
                     MismatchedInputException mie = (MismatchedInputException) hre.getCause();

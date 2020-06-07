@@ -34,7 +34,7 @@ services:
         deploy:
             replicas: 2
     beer-service:
-        image: sfgbeerworks/sfg-brewery-beer-service:1.0.9
+        image: sfgbeerworks/sfg-brewery-beer-service:1.0.10
         ports:
             - 8080:8080
         restart: on-failure
