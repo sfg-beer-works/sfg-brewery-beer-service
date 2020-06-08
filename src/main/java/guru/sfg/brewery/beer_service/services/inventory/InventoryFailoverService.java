@@ -23,5 +23,4 @@ public class InventoryFailoverService implements InventoryServiceFeignClient {
         log.debug("Calling Inventory Failover for Beer Id: " + beerId);
         return inventoryFailoverFeignClient.getOnhandInventory();
     }
-
 }
