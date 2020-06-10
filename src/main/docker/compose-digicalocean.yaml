@@ -12,7 +12,7 @@ services:
             restart_policy:
                 condition: on-failure
     inventory-service:
-        image: sfgbeerworks/sfg-brewery-inventory-service:1.0.5
+        image: sfgbeerworks/sfg-brewery-inventory-service #Set version if needed, keep in mind 'latest' tag will only be pulled the first time, updates will not automatically get pulled
         ports:
             - 8082:8082
         environment:
@@ -34,7 +34,7 @@ services:
         deploy:
             replicas: 2
     beer-service:
-        image: sfgbeerworks/sfg-brewery-beer-service:1.0.15
+        image: sfgbeerworks/sfg-brewery-beer-service
         ports:
             - 8080:8080
         restart: on-failure
@@ -61,7 +61,7 @@ services:
         deploy:
             replicas: 2
     gateway:
-        image: sfgbeerworks/sfg-brewery-gateway:1.0.5
+        image: sfgbeerworks/sfg-brewery-gateway
         ports:
             - 9090:9090
         restart: on-failure
